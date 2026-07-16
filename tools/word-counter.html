@@ -14,7 +14,7 @@ padding:20px;
 }
 
 .container{
-max-width:700px;
+max-width:800px;
 margin:auto;
 }
 
@@ -31,11 +31,12 @@ font-size:18px;
 border-radius:10px;
 border:1px solid #ccc;
 box-sizing:border-box;
+resize:vertical;
 }
 
 .stats{
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:15px;
 margin-top:20px;
 }
@@ -43,15 +44,23 @@ margin-top:20px;
 .card{
 background:white;
 padding:20px;
-border-radius:10px;
+border-radius:12px;
 text-align:center;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+box-shadow:0 3px 10px rgba(0,0,0,.1);
 }
 
 .number{
-font-size:30px;
+font-size:32px;
 font-weight:bold;
 color:#2563eb;
+}
+
+.back{
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
+color:#2563eb;
+font-weight:bold;
 }
 </style>
 
@@ -60,6 +69,8 @@ color:#2563eb;
 <body>
 
 <div class="container">
+
+<a class="back" href="../index.html">⬅ Back to Home</a>
 
 <h1>🔤 Word Counter</h1>
 
@@ -98,8 +109,10 @@ Reading Time
 </div>
 
 </div>
-<script>
 
+</div>
+
+<script>
 const text=document.getElementById("text");
 
 text.addEventListener("input",function(){
@@ -108,12 +121,24 @@ let value=text.value;
 
 let words=value.trim()===""?0:value.trim().split(/\s+/).length;
 
-document.getElementById("words").innerText=words;
+let characters=value.length;
 
-document.getElementById("characters").innerText=value.length;
+let noSpace=value.replace(/\s/g,"").length;
+
+let sentences=value.trim()===""?0:value.split(/[.!؟?]+/).filter(s=>s.trim()!="").length;
+
+let paragraphs=value.trim()===""?0:value.split(/\n+/).filter(p=>p.trim()!="").length;
+
+let reading=Math.ceil(words/200*60);
+
+document.getElementById("words").innerText=words;
+document.getElementById("characters").innerText=characters;
+document.getElementById("nospace").innerText=noSpace;
+document.getElementById("sentences").innerText=sentences;
+document.getElementById("paragraphs").innerText=paragraphs;
+document.getElementById("reading").innerText=reading+" sec";
 
 });
-
 </script>
 
 </body>
